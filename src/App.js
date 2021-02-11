@@ -1,36 +1,49 @@
+import { Fragment, useState } from 'react';
 import firebase from "firebase/app";
 import "firebase/auth";
 import {
-  FirebaseAuthProvider,
-  IfFirebaseAuthed,
-  IfFirebaseUnAuthed,
-} from "@react-firebase/auth";
+  BrowserRouter,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
-import config from "./config.js";
-
-import Login from "./pages/Login";
-import Space from "./pages/Space";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
-  if (!firebase.apps.length) {
-    firebase.initializeApp(config);
-  } else {
-    firebase.app();
-  }
-  firebase.auth().useEmulator('http://localhost:9099/');
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+
+  firebase.auth().onAuthStateChanged((u) => {
+    setUser(u);
+    setLoading(false);
+  });
+
+  if (loading) { return(<div>Loading</div>); }
 
   return (
-    <FirebaseAuthProvider {...config} firebase={firebase}>
-      <div>
-        <IfFirebaseUnAuthed>
-          {() => <Login />}
-        </IfFirebaseUnAuthed>
-        <IfFirebaseAuthed>
-          {() => <Space />}
-        </IfFirebaseAuthed>
-      </div>
-    </FirebaseAuthProvider>
+    <Fragment>
+      <Router authed={!!user} />
+    </Fragment>
   );
+}
+
+function Router({ authed }) {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/login"><LoginPage /></Route>
+        <PrivateRoute path="/" authed={authed}>
+          <HomePage />
+        </PrivateRoute>
+      </Switch>
+    </BrowserRouter>
+  );
+}
+
+function PrivateRoute({ children, path, authed }) {
+  return <Route exact path={path}>{authed ? children : <Redirect to='/login' />}</Route>
 }
 
 export default App;
