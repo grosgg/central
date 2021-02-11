@@ -1,21 +1,23 @@
 import { Fragment, useState } from 'react';
-import firebase from "firebase/app";
-import "firebase/auth";
 import {
   BrowserRouter,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
+import {
+  useAuth,
+} from 'reactfire';
 
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 
 function App() {
+  const auth = useAuth();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
-  firebase.auth().onAuthStateChanged((u) => {
+  auth.onAuthStateChanged((u) => {
     setUser(u);
     setLoading(false);
   });

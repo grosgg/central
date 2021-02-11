@@ -1,11 +1,10 @@
-import { Fragment } from "react";
-import firebase from "firebase/app";
-import "firebase/auth";
+import { Fragment, Suspense } from "react";
 import {
   useUser,
 } from 'reactfire';
 
 import Navbar from './components/Navbar';
+import SpacesList from './components/SpacesList';
 
 function HomePage() {
   const { data: user } = useUser();
@@ -16,6 +15,9 @@ function HomePage() {
       <div className="container">
         <section className="section">
           <div>{ user && user.displayName }</div>
+        </section>
+        <section className="section">
+          <SpacesList />
         </section>
       </div>
     </Fragment>

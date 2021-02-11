@@ -1,5 +1,4 @@
-import firebase from "firebase/app";
-import "firebase/auth";
+import firebase from 'firebase/app';
 import { useAuth } from 'reactfire';
 import { useHistory } from "react-router-dom";
 

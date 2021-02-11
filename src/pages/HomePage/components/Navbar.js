@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import firebase from "firebase/app";
-import "firebase/auth";
+import {
+  useAuth,
+} from 'reactfire';
 
 function Navbar() {
   const [expanded, setExpanded] = useState(false);
+  const auth = useAuth();
 
   return (
     <nav className="navbar is-primary" role="navigation" aria-label="main navigation">
@@ -23,7 +25,7 @@ function Navbar() {
           <div className="navbar-item">
             <div className="buttons">
               <button className="button">New Space</button>
-              <button className="button is-text" onClick={() => firebase.auth().signOut() }>Sign Out</button>
+              <button className="button is-text" onClick={() => auth.signOut() }>Sign Out</button>
             </div>
           </div>
         </div>
