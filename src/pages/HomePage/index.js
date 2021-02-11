@@ -1,24 +1,25 @@
+import { Fragment } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 import {
   useUser,
 } from 'reactfire';
 
+import Navbar from './components/Navbar';
+
 function HomePage() {
   const { data: user } = useUser();
 
-  return <section className="section">
-    <div className="container">
-      <div>{ user && user.displayName }</div>
-      <button
-        className="button"
-          onClick={() => firebase.auth().signOut() }
-        >
-          Sign Out
-        </button>
-
-    </div>
-  </section>
+  return (
+    <Fragment>
+      <Navbar />
+      <div className="container">
+        <section className="section">
+          <div>{ user && user.displayName }</div>
+        </section>
+      </div>
+    </Fragment>
+  );
 }
 
 export default HomePage;
