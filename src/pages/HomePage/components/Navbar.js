@@ -1,12 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  useAuth,
-} from 'reactfire';
+import { Link, useHistory } from "react-router-dom";
+import { useAuth } from 'reactfire';
 
 function Navbar() {
   const [expanded, setExpanded] = useState(false);
   const auth = useAuth();
+  const history = useHistory();
+
+  function handleLogout() {
+    try {
+      auth.signOut().then(() => {
+        history.push("/login");
+      });
+    } catch (e) {
+      alert(e.message);
+    }
+  }
 
   return (
     <nav className="navbar is-primary" role="navigation" aria-label="main navigation">
@@ -25,7 +34,7 @@ function Navbar() {
           <div className="navbar-item">
             <div className="buttons">
               <button className="button">New Space</button>
-              <button className="button is-text" onClick={() => auth.signOut() }>Sign Out</button>
+              <button className="button is-text" onClick={handleLogout}>Sign Out</button>
             </div>
           </div>
         </div>

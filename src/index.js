@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import firebase from "firebase/app";
+// ---- Workaround for Auth lost on refresh (dev only)
+import 'firebase/firestore';
+import 'firebase/auth';
+// ----
 import {
   FirebaseAppProvider,
   preloadAuth,
@@ -12,7 +16,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import config from "./config.js";
 
-const firebaseApp = !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+// const firebaseApp = !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
+const firebaseApp = firebase.initializeApp(config);
+// console.log('NODE_ENV', process.env.NODE_ENV);
 
 const preloadSDKs = firebaseApp => {
   return Promise.all([

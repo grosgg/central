@@ -14,10 +14,12 @@ import HomePage from "./pages/HomePage";
 
 function App() {
   const auth = useAuth();
+  // const { data: user } = useUser();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
   auth.onAuthStateChanged((u) => {
+    // console.log(u);
     setUser(u);
     setLoading(false);
   });

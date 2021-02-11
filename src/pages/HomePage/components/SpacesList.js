@@ -8,18 +8,18 @@ import {
 function SpacesList() {
   const { data: user } = useUser();
 
-  // const firestore = useFirestore();
-  // const userDetailsRef = firestore
-  // .collection('users')
-  // .doc(user.uid);
+  const firestore = useFirestore();
+  const userDetailsRef = firestore
+  .collection('users')
+  .doc(user.uid);
 
-  // console.log(userDetailsRef);
+  console.log(userDetailsRef);
 
-  // let data = useFirestoreDocData(
-  //   userDetailsRef
-  // );
+  let data = useFirestoreDocData(
+    userDetailsRef
+  );
 
-  // console.log(data);
+  console.log(data);
 
   return (<div>Spaces List</div>);
 }

@@ -1,4 +1,4 @@
-import { Fragment, Suspense } from "react";
+import { Fragment } from "react";
 import {
   useUser,
 } from 'reactfire';
@@ -12,14 +12,16 @@ function HomePage() {
   return (
     <Fragment>
       <Navbar />
-      <div className="container">
-        <section className="section">
-          <div>{ user && user.displayName }</div>
-        </section>
-        <section className="section">
-          <SpacesList />
-        </section>
-      </div>
+      { user &&
+        <div className="container">
+          <section className="section">
+            <div>{ user.displayName }</div>
+          </section>
+          <section className="section">
+            <SpacesList />
+          </section>
+        </div>
+      }
     </Fragment>
   );
 }
