@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import SpacesList from './components/SpacesList';
 
 function HomePage() {
+  console.log('On est la');
   const { data: user } = useUser();
 
   return (

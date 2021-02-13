@@ -1,21 +1,37 @@
 import firebase from 'firebase/app';
-import { useAuth } from 'reactfire';
-import { useHistory } from "react-router-dom";
+import {
+  useAuth,
+  useFirestore,
+} from 'reactfire';
+import { Redirect, useHistory } from "react-router-dom";
 
 function LoginPage() {
   const history = useHistory();
+  const firestore = useFirestore();
   const auth = useAuth();
 
-  async function handleLogin(event) {
+  if (auth.currentUser) {
+    return <Redirect to="/" />;
+  }
+
+  function initUserDoc(loginResult) {
+    const { user } = loginResult;
+
+    const userDocRef = firestore.collection('users').doc(user.uid);
+
+    userDocRef.set({email: user.email}, {merge: true}).then(() => history.push("/"));
+  }
+
+  function handleLogin(event) {
     try {
       const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-      await auth.signInWithPopup(googleAuthProvider);
-      history.push("/");
+      auth.signInWithPopup(googleAuthProvider).then((result) => initUserDoc(result));
     } catch (e) {
       alert(e.message);
     }
   }
-  
+
+
   return <section className="section">
     <div className="container">
       <h1 className="title">Central</h1>
@@ -29,6 +45,5 @@ function LoginPage() {
     </div>
   </section>
 }
-
 
 export default LoginPage;

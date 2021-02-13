@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import {
   BrowserRouter,
   Switch,
@@ -14,31 +14,20 @@ import HomePage from "./pages/HomePage";
 
 function App() {
   const auth = useAuth();
-  // const { data: user } = useUser();
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
 
   auth.onAuthStateChanged((u) => {
-    // console.log(u);
-    setUser(u);
+    console.log('Auth state change', u);
     setLoading(false);
   });
 
   if (loading) { return(<div>Loading</div>); }
 
   return (
-    <Fragment>
-      <Router authed={!!user} />
-    </Fragment>
-  );
-}
-
-function Router({ authed }) {
-  return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/login"><LoginPage /></Route>
-        <PrivateRoute path="/" authed={authed}>
+        <Route path="/login"><LoginPage /></Route>
+        <PrivateRoute path="/">
           <HomePage />
         </PrivateRoute>
       </Switch>
@@ -46,8 +35,11 @@ function Router({ authed }) {
   );
 }
 
-function PrivateRoute({ children, path, authed }) {
-  return <Route exact path={path}>{authed ? children : <Redirect to='/login' />}</Route>
+function PrivateRoute({ children, path }) {
+  const auth = useAuth();
+  // console.log('private', auth.currentUser);
+
+  return <Route exact path={path}>{auth.currentUser ? children : <Redirect to='/login' />}</Route>
 }
 
 export default App;

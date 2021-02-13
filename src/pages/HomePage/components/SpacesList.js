@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import {
   useUser,
   useFirestore,
@@ -7,20 +6,16 @@ import {
 
 function SpacesList() {
   const { data: user } = useUser();
-
   const firestore = useFirestore();
-  const userDetailsRef = firestore
-  .collection('users')
-  .doc(user.uid);
 
-  console.log(userDetailsRef);
-
-  let data = useFirestoreDocData(
-    userDetailsRef
-  );
+  const userDocRef = firestore.collection('users').doc(user.uid);
+  let { data } = useFirestoreDocData(userDocRef);
 
   console.log(data);
 
+  if (!data.spaces || data.spaces.length === 0) {
+    return <div>Please create a space.</div>
+  }
   return (<div>Spaces List</div>);
 }
 
