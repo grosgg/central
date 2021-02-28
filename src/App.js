@@ -11,13 +11,14 @@ import {
 
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
+import SpacePage from "./pages/SpacePage";
 
 function App() {
   const auth = useAuth();
   const [loading, setLoading] = useState(true);
 
   auth.onAuthStateChanged((u) => {
-    console.log('Auth state change', u);
+    // console.log('Auth state change', u);
     setLoading(false);
   });
 
@@ -27,6 +28,9 @@ function App() {
     <BrowserRouter>
       <Switch>
         <Route path="/login"><LoginPage /></Route>
+        <PrivateRoute path="/space/:id">
+          <SpacePage />
+        </PrivateRoute>
         <PrivateRoute path="/">
           <HomePage />
         </PrivateRoute>

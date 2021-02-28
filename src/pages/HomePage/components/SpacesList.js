@@ -1,22 +1,35 @@
 import {
   useUser,
   useFirestore,
-  useFirestoreDocData,
+  useFirestoreCollectionData,
 } from 'reactfire';
+
+import { Link } from "react-router-dom";
 
 function SpacesList() {
   const { data: user } = useUser();
   const firestore = useFirestore();
 
-  const userDocRef = firestore.collection('users').doc(user.uid);
-  let { data } = useFirestoreDocData(userDocRef);
+  const spacesCollectionRef = firestore.collection('users').doc(user.uid).collection('spaces');
+  let { data } = useFirestoreCollectionData(spacesCollectionRef, {idField: 'id'});
 
-  console.log(data);
+  // console.log('spacesCollection', data);
 
-  if (!data.spaces || data.spaces.length === 0) {
+  if (!data || data.length === 0) {
     return <div>Please create a space.</div>
   }
-  return (<div>Spaces List</div>);
+
+  return (
+    <div>
+      { data.map((space) => (
+        <div className='box' key={space.id}>
+          <Link to={`/space/${space.id}`}>
+            { space.name }
+          </Link>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default SpacesList;

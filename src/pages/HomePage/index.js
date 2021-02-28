@@ -3,11 +3,10 @@ import {
   useUser,
 } from 'reactfire';
 
-import Navbar from './components/Navbar';
+import Navbar from '../../components/Navbar';
 import SpacesList from './components/SpacesList';
 
 function HomePage() {
-  console.log('On est la');
   const { data: user } = useUser();
 
   return (
@@ -16,7 +15,7 @@ function HomePage() {
       { user &&
         <div className="container">
           <section className="section">
-            <div>{ user.displayName }</div>
+            <div>Welcome, { user.displayName }!</div>
           </section>
           <section className="section">
             <SpacesList />
