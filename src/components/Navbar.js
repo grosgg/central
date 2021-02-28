@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useAuth, useFirestore } from 'reactfire';
+import { useAuth } from 'reactfire';
 
 function Navbar() {
   const [expanded, setExpanded] = useState(false);
   const auth = useAuth();
   const history = useHistory();
-  const firestore = useFirestore();
 
   function handleLogout() {
     try {
@@ -18,15 +17,9 @@ function Navbar() {
     }
   }
 
-  function addSpace() {
-    firestore.collection('users').doc(auth.currentUser.uid).collection('spaces').add({
-      name: 'New Space',
-    })
-  }
-
   return (
     <nav className="navbar is-primary" role="navigation" aria-label="main navigation">
-      <div className="navbar-brand">
+      <div className="navbar-brand has-text-weight-semi-bold is-size-4">
         <Link className="navbar-item" to="/">Central</Link>
 
         <a className="navbar-burger" aria-label="menu" aria-expanded="false" data-target="central-navbar" onClick={() => setExpanded(!expanded)} >
@@ -40,7 +33,6 @@ function Navbar() {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <button className="button" onClick={addSpace}>New Space</button>
               <button className="button is-text" onClick={handleLogout}>Sign Out</button>
             </div>
           </div>
