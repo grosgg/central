@@ -46,10 +46,12 @@ function SpacesList() {
           </div>
         ))}
       </div>
-      <SpaceModal
-        space={modalSpace}
-        onClose={() => setModalSpace(null)}
-      />
+      { modalSpace &&
+        <SpaceModal
+          space={modalSpace}
+          onClose={() => setModalSpace(null)}
+        />
+      }
     </section>
   );
 }
