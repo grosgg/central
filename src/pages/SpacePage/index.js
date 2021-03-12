@@ -34,16 +34,16 @@ function SpacePage() {
 
   return (
     <Fragment>
-      <Navbar />
-        <section className="section">
-          <div className="columns is-multiline">
-          { grid.map((a) => (
-            <div className="column is-one-quarter" key={a}>
-              <ModuleSlot module={getModule(a)} space={space} />
-            </div>
-          ))}
+      <Navbar space={space} />
+      <section className="section">
+        <div className="columns is-multiline">
+        { grid.map((a) => (
+          <div className="column is-one-quarter" key={a}>
+            <ModuleSlot module={getModule(a)} space={space} />
           </div>
-        </section>
+        ))}
+        </div>
+      </section>
     </Fragment>
   );
 }

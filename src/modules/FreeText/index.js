@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import ModuleModal from './ModuleModal';
 
 function FreeText ({ module, space }) {
-  const { register, handleSubmit } = useForm({ defaultValues: module.settings });
+  const { register, handleSubmit } = useForm({ defaultValues: module });
   const { data: user } = useUser();
   const firestore = useFirestore();
   const [modal, setModal] = useState();
