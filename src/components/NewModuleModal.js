@@ -4,17 +4,17 @@ import {
 } from 'reactfire';
 import { useForm } from "react-hook-form";
 
-function NewModuleModal({ module, space, onClose }) {
-  const { register, handleSubmit } = useForm({ defaultValues: module });
+function NewModuleModal({ spaceId, newPosition, onClose }) {
+  const { register, handleSubmit } = useForm();
   const { data: user } = useUser();
   const firestore = useFirestore();
 
   const spaceRef = firestore.collection('users').doc(user.uid)
-    .collection('spaces').doc(space.id);
+    .collection('spaces').doc(spaceId);
 
   function addModule(data) {
     spaceRef.collection('modules').add(
-      { type: data.type, position: parseInt(data.position, 10) }
+      { type: data.type, position: newPosition }
     );
     onClose();
   }
@@ -26,12 +26,6 @@ function NewModuleModal({ module, space, onClose }) {
         <div className="box">
           <p className="title">New Module</p>
           <form onSubmit={handleSubmit(addModule)}>
-            <div className="field">
-              <label className="label">Position</label>
-              <div className="control">
-                <input className="input" name="position" type="number" ref={register} />
-              </div>
-            </div>
             <div className="field">
               <label className="label">Type</label>
               <div className="control">

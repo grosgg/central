@@ -4,7 +4,7 @@ import { useAuth } from 'reactfire';
 
 import NewModuleModal from './NewModuleModal';
 
-function Navbar({ space }) {
+function Navbar({ spaceId, newPosition }) {
   const auth = useAuth();
   const history = useHistory();
   const [expanded, setExpanded] = useState(false);
@@ -37,8 +37,8 @@ function Navbar({ space }) {
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons">
-                { space &&
-                  <button className="button" onClick={() => setModal(space)}>New Module</button>
+                { spaceId && newPosition &&
+                  <button className="button" onClick={() => setModal(spaceId)}>New Module</button>
                 }
                 <button className="button is-text" onClick={handleLogout}>Sign Out</button>
               </div>
@@ -48,7 +48,8 @@ function Navbar({ space }) {
       </nav>
       { modal &&
         <NewModuleModal
-          space={space}
+          spaceId={spaceId}
+          newPosition={newPosition}
           onClose={() => setModal(null)}
         />
       }

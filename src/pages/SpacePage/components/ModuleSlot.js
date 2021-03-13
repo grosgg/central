@@ -1,11 +1,11 @@
 import FreeText from '../../../modules/FreeText';
 
-function ModuleSlot({ module, space }) {
+function ModuleSlot({ module, spaceId }) {
   if (!module) { return null; }
 
   switch (module.type) {
     case 'freetext':
-      return <div className="box"><FreeText module={module} space={space} /></div>;
+      return <div className="box"><FreeText module={module} spaceId={spaceId} /></div>;
   
     default:
       return null;

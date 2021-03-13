@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import {
   useUser,
   useFirestore,
@@ -7,15 +7,21 @@ import { useForm } from "react-hook-form";
 
 import ModuleModal from './ModuleModal';
 
-function FreeText ({ module, space }) {
-  const { register, handleSubmit } = useForm({ defaultValues: module });
+function FreeText ({ module, spaceId }) {
+  // console.log('FreeText', module);
+  const { register, handleSubmit, reset } = useForm();
   const { data: user } = useUser();
   const firestore = useFirestore();
   const [modal, setModal] = useState();
 
+  // Reset form default values
+  useEffect(() => {
+    reset(module);
+  }, [reset, module])
+
   function setModule(data) {
     firestore.collection('users').doc(user.uid)
-      .collection('spaces').doc(space.id)
+      .collection('spaces').doc(spaceId)
       .collection('modules').doc(module.id).set(
       data, { merge: true }
     );
@@ -40,14 +46,14 @@ function FreeText ({ module, space }) {
             <button className="button is-primary is-small" type="submit">Save</button>
           </div>
           <div className="column has-text-right">
-            <button className="button is-small" onClick={() => setModal(module, space)}>Set</button>
+            <button className="button is-small" onClick={() => setModal(module, spaceId)}>Set</button>
           </div>
         </div>
       </form>
       { modal &&
         <ModuleModal
           module={module}
-          space={space}
+          spaceId={spaceId}
           onClose={() => setModal(null)}
         />
       }

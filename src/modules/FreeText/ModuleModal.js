@@ -4,14 +4,13 @@ import {
 } from 'reactfire';
 import { useForm } from "react-hook-form";
 
-function ModuleModal({ module, space, onClose }) {
+function ModuleModal({ module, spaceId, onClose }) {
   const { register, handleSubmit } = useForm({ defaultValues: module });
   const { data: user } = useUser();
   const firestore = useFirestore();
 
-  const moduleRef = firestore.collection('users').doc(user.uid)
-    .collection('spaces').doc(space.id)
-    .collection('modules').doc(module.id);
+  const spaceRef = firestore.collection('users').doc(user.uid).collection('spaces').doc(spaceId);
+  const moduleRef = spaceRef.collection('modules').doc(module.id);
 
   function deleteModule() {
     moduleRef.delete();
@@ -19,9 +18,23 @@ function ModuleModal({ module, space, onClose }) {
   }
 
   function setModule(data) {
-    moduleRef.set(
-      { position: parseInt(data.position, 10) }, { merge: true }
-    );
+    spaceRef.collection('modules').where("position", "==", data.position)
+    .get().then(querySnapshot => {
+      const batch = firestore.batch();
+      querySnapshot.forEach(doc => {
+        const docRef = spaceRef.collection('modules').doc(doc.id);
+        batch.update(docRef, { position: module.position });
+      });
+      batch.update(moduleRef, { position: data.position });
+      batch.commit().then(() => onClose());
+    });
+  }
+
+  const positionOptions = [];
+  for (let index = 0; index < 12; index++) {
+    positionOptions.push(
+      <option value={index} key={index}>{index}</option>
+    )
   }
 
   return(
@@ -34,7 +47,11 @@ function ModuleModal({ module, space, onClose }) {
             <div className="field">
               <label className="label">Position</label>
               <div className="control">
-                <input className="input" name="position" type="number" ref={register} />
+                <div className="select">
+                  <select name="position" ref={register({ valueAsNumber: true })}>
+                    { positionOptions }
+                  </select>
+                </div>
               </div>
             </div>
 
