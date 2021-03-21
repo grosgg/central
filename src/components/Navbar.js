@@ -37,7 +37,7 @@ function Navbar({ spaceId, newPosition }) {
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons">
-                { spaceId && newPosition &&
+                { spaceId && Number.isInteger(newPosition) &&
                   <button className="button" onClick={() => setModal(spaceId)}>New Module</button>
                 }
                 <button className="button is-text" onClick={handleLogout}>Sign Out</button>

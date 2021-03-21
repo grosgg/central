@@ -23,6 +23,20 @@ function SpacePage() {
 
   if (!user || !id || !modules) { return <Fragment><Navbar /></Fragment> }
 
+  if (modules.length === 0) {
+    return (
+      <Fragment>
+        <Navbar spaceId={id} newPosition={0} />
+        <section className="hero">
+          <div className="hero-body">
+            <p className="title">Add your first module.</p>
+            <p className="subtitle">You will then be able to add more modules and configure them.</p>
+          </div>
+        </section>
+      </Fragment>
+    )
+  }
+
   const grid = [];
   let newPosition = null;
 
