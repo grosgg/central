@@ -4,6 +4,8 @@ import {
 } from 'reactfire';
 import { useForm } from "react-hook-form";
 
+import constants from '../utils/constants.js';
+
 function NewModuleModal({ spaceId, newPosition, onClose }) {
   const { register, handleSubmit } = useForm();
   const { data: user } = useUser();
@@ -14,7 +16,7 @@ function NewModuleModal({ spaceId, newPosition, onClose }) {
 
   function addModule(data) {
     spaceRef.collection('modules').add(
-      { type: data.type, position: newPosition }
+      Object.assign({ type: data.type, position: newPosition }, constants.defaults[data.type])
     );
     onClose();
   }
@@ -32,6 +34,7 @@ function NewModuleModal({ spaceId, newPosition, onClose }) {
                 <div className="select">
                   <select name="type" ref={register}>
                     <option value="freetext">Free Text</option>
+                    <option value="pomodoro">Pomodoro</option>
                   </select>
                 </div>
               </div>
