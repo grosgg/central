@@ -4,12 +4,11 @@ import {
   useFirestore,
 } from 'reactfire';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-// import { useForm } from "react-hook-form";
 
 import ModuleModal from './ModuleModal';
 
 function Pomodoro ({ module, spaceId }) {
-  console.log('Pomodoro', module);
+  // console.log('Pomodoro', module);
   const { data: user } = useUser();
   const firestore = useFirestore();
   const [modal, setModal] = useState();
@@ -90,6 +89,7 @@ function Pomodoro ({ module, spaceId }) {
         <ModuleModal
           module={module}
           spaceId={spaceId}
+          onReset={() => setKey(key + 1)}
           onClose={() => setModal(null)}
         />
       }

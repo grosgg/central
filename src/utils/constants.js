@@ -1,15 +1,15 @@
 const constants = {
   layouts: {
     twoColumnSlots: 6,
-    threeColumnSlots: 12,
+    fourColumnSlots: 12,
   },
   defaults: {
     freetext: {},
     pomodoro: {
-      focus: 0.1,
-      shortBreak: 0.2,
+      focus: 25,
+      shortBreak: 5,
       set: 4,
-      longBreak: 0.3,
+      longBreak: 20,
       count: 0,
       currently: 'focus',
     }
