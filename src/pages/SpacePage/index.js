@@ -19,7 +19,7 @@ function SpacePage() {
     .collection('spaces').doc(id).collection('modules');
   const modules = useFirestoreCollectionData(modulesCollectionsRef, {idField: 'id'}).data;
 
-  console.log('modules', modules);
+  // console.log('modules', modules);
 
   if (!user || !id || !modules) { return <Fragment><Navbar /></Fragment> }
 
